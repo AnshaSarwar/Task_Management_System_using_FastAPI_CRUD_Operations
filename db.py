@@ -10,7 +10,7 @@ from typing import Optional
 app = FastAPI()
 
 # Define database url
-database_url = "postgresql://ansha:newpassword@localhost/task_management"
+database_url = "postgresql://username:password@localhost/task_management"
 
 # Create sqlalchemy engine
 engine = create_engine(database_url)
@@ -80,7 +80,7 @@ class UpdateTask(BaseModel):
     status: Optional[str] = None
 
 # Update task
-@app.post("/tasks/{task_id}", response_model=Task)
+@app.put("/tasks/{task_id}", response_model=Task)
 async def update_task(task_id: int, task: UpdateTask, db:Session=Depends(get_db)):
     db_task = db.query(TaskORM).filter(TaskORM.id==task_id).first()
     if db_task is None:
